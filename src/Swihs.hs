@@ -5,6 +5,7 @@ module Swihs
     initSwipl,
     useModule,
     useLibrary,
+    ensureLoaded,
     notrace,
     asserta,
     assertz,
@@ -38,6 +39,9 @@ useModule t =
 
 useLibrary :: Text -> IO ()
 useLibrary lib = useModule (F1 "library" (Atom lib))
+
+ensureLoaded :: Text -> IO ()
+ensureLoaded file = void $ queryBool $ Atom file
 
 notrace :: IO ()
 notrace = void $ queryBool $ Atom "notrace"
