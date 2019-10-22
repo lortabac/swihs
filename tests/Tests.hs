@@ -10,7 +10,7 @@ import Test.Tasty
 main :: IO ()
 main = do
   _ <- initSwipl
-  useLib "clpfd"
+  useLibrary "clpfd"
   defaultMain tests
 
 tests :: TestTree

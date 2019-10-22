@@ -4,7 +4,7 @@ module Swihs
   ( runSwipl,
     initSwipl,
     useModule,
-    useLib,
+    useLibrary,
     notrace,
     asserta,
     assertz,
@@ -36,8 +36,8 @@ useModule t =
   void $ queryBool $
     F1 "use_module" t
 
-useLib :: Text -> IO ()
-useLib lib = useModule (F1 "library" (Atom lib))
+useLibrary :: Text -> IO ()
+useLibrary lib = useModule (F1 "library" (Atom lib))
 
 notrace :: IO ()
 notrace = void $ queryBool $ Atom "notrace"
