@@ -1,0 +1,52 @@
+cabal-version:       >=1.10
+name:                swihs
+version:             0.1.0.0
+-- synopsis:
+-- description:
+-- bug-reports:
+license:             BSD3
+license-file:        LICENSE
+author:              Lorenzo Tabacchini
+maintainer:          lortabac@gmx.com
+-- copyright:
+category:            Language
+build-type:          Simple
+extra-source-files:  CHANGELOG.md
+
+library
+  exposed-modules:     Swihs
+                     , Swihs.Builder
+                     , Swihs.C
+                     , Swihs.C.Embed
+                     , Swihs.C.Query
+                     , Swihs.C.Terms
+                     , Swihs.C.Text
+                     , Swihs.C.Types
+                     , Swihs.Lib.Builtin
+                     , Swihs.Lib.Clpfd
+                     , Swihs.Query
+                     , Swihs.Term
+                     , Swihs.Types
+  build-depends:       base >=4.12 && <5
+                     , bytestring
+                     , containers
+                     , scientific
+                     , text
+                     , transformers
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  ghc-options:         -Wall -lswipl -dynload=deploy
+
+test-suite swihs-test
+  type: exitcode-stdio-1.0
+  main-is: Tests.hs
+  hs-source-dirs:      tests
+  other-modules:       Swihs.Tests.Builtin
+                     , Swihs.Tests.Clpfd
+  build-depends:       base >=4.12 && <5
+                     , containers
+                     , swihs
+                     , tasty
+                     , tasty-hunit
+  default-language:    Haskell2010
+  ghc-options:         -Wall
