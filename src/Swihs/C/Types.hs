@@ -31,6 +31,7 @@ data TermType
   | TAtom
   | TInteger
   | TFloat
+  | TString
   | TNil
   | TListPair
   deriving (Eq, Show)
@@ -41,6 +42,7 @@ instance Enum TermType where
   toEnum 2 = TAtom
   toEnum 3 = TInteger
   toEnum 4 = TFloat
+  toEnum 5 = TString
   toEnum 7 = TNil
   toEnum 9 = TListPair
   toEnum _ = error "Unknown TermType"
@@ -49,6 +51,7 @@ instance Enum TermType where
   fromEnum TAtom = 2
   fromEnum TInteger = 3
   fromEnum TFloat = 4
+  fromEnum TString = 5
   fromEnum TNil = 7
   fromEnum TListPair = 9
 

@@ -4,6 +4,7 @@ module Swihs
   ( runSwipl,
     initSwipl,
     useModule,
+    useModule',
     useLibrary,
     ensureLoaded,
     notrace,
@@ -32,16 +33,22 @@ runSwipl f = do
 initSwipl :: IO Bool
 initSwipl = C.initialise
 
-useModule :: Term -> IO ()
-useModule t =
+useModule :: Text -> IO ()
+useModule str = useModule' (String str)
+
+useModule' :: Term -> IO ()
+useModule' t =
   void $ queryBool $
     F1 "use_module" t
 
 useLibrary :: Text -> IO ()
-useLibrary lib = useModule (F1 "library" (Atom lib))
+useLibrary lib = useModule' (F1 "library" (Atom lib))
 
 ensureLoaded :: Text -> IO ()
-ensureLoaded file = void $ queryBool $ Atom file
+ensureLoaded file =
+  void
+    $ queryBool
+    $ F1 "ensure_loaded" (String file)
 
 notrace :: IO ()
 notrace = void $ queryBool $ Atom "notrace"

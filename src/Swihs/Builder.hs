@@ -55,6 +55,7 @@ putTerm ref t = case t of
   Number n -> liftIO $ case floatingOrInteger n of
     Left r -> void $ putFloat ref r
     Right i -> void $ putInt64 ref i
+  String str -> liftIO $ void $ putStringChars ref str
   Var name -> do
     varMap <- get
     case Map.lookup name varMap of

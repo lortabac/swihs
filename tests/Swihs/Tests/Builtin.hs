@@ -47,9 +47,14 @@ builtinTests =
         assertz $ F1 "woman" "sarah"
         sol <- queryList $ F2 "loves" "harry" "X"
         sol @=? [[("X", Ground "sarah")]],
-      testCase "Non-ASCII characters" $ do
+      testCase "Non-ASCII characters in atoms" $ do
         assertz $ F1 "turkish_food" "mantı"
         assertz $ F1 "chinese_food" "春卷"
         sol <- queryOnce $ F1 "turkish_food" "X" .& F1 "chinese_food" "Y"
-        sol @=? Just [("X", Ground "mantı"), ("Y", Ground "春卷")]
+        sol @=? Just [("X", Ground "mantı"), ("Y", Ground "春卷")],
+      testCase "Non-ASCII characters in strings" $ do
+        assertz $ F1 "turkish_food_str" (String "mantı")
+        assertz $ F1 "chinese_food_str" (String "春卷")
+        sol <- queryOnce $ F1 "turkish_food_str" "X" .& F1 "chinese_food_str" "Y"
+        sol @=? Just [("X", Ground (String "mantı")), ("Y", Ground (String "春卷"))]
     ]

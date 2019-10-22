@@ -64,6 +64,11 @@ foreign import ccall "PL_put_float" pl_put_float :: TermRef -> CDouble -> IO CIn
 putFloat :: TermRef -> Double -> IO Bool
 putFloat t r = toBool <$> pl_put_float t (CDouble r)
 
+foreign import ccall "PL_put_string_chars" pl_put_string_chars :: TermRef -> CString -> IO CInt
+
+putStringChars :: TermRef -> Text -> IO Bool
+putStringChars t str = toBool <$> useTextAsCString str (pl_put_string_chars t)
+
 foreign import ccall "PL_put_functor" pl_put_functor :: TermRef -> Functor_ -> IO CInt
 
 putFunctor :: TermRef -> Functor_ -> IO Bool
@@ -107,6 +112,16 @@ getFloat t = alloca $ \p_r -> do
   _ <- pl_get_float t p_r
   CDouble r <- peek p_r
   pure r
+
+foreign import ccall "PL_get_string" pl_get_string_chars :: TermRef -> Ptr CString -> Ptr CSize -> IO CInt
+
+getStringChars :: TermRef -> IO Text
+getStringChars t =
+  alloca $ \p_str ->
+    alloca $ \p_len -> do
+      _ <- pl_get_string_chars t p_str p_len
+      cstr <- peek p_str
+      packCStringAsText cstr
 
 foreign import ccall "PL_get_functor" pl_get_functor :: TermRef -> Ptr Functor_ -> IO CInt
 

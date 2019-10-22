@@ -23,6 +23,9 @@ getTerm ref = do
     TFloat -> do
       r <- getFloat ref
       pure $ Ground (Number (fromFloatDigits r))
+    TString -> do
+      s <- getStringChars ref
+      pure $ Ground (String s)
     TNil -> do
       _ <- getNil ref
       pure $ Ground Nil

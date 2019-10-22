@@ -20,6 +20,7 @@ import Swihs.C
 data Term
   = Atom Text
   | Number Scientific
+  | String Text
   | Var String
   | WildCard
   | Nil
@@ -79,6 +80,7 @@ partial :: (Term -> Term) -> Term
 partial p = case p WildCard of
   Atom _ -> error "Cannot partially apply an atom"
   Number _ -> error "Cannot partially apply a number"
+  String _ -> error "Cannot partially apply a string"
   Var _ -> error "Cannot partially apply a variable"
   WildCard -> error "Cannot partially apply a wild card"
   Nil -> error "Cannot partially apply nil"
