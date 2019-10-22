@@ -1,9 +1,18 @@
-module Swihs.Query where
+module Swihs.Query
+  ( queryBool,
+    queryOnce,
+    queryList,
+    openQuery,
+    cutQuery,
+    closeQuery,
+    nextSolution,
+  )
+where
 
 import Control.Monad (void)
 import Data.Map (Map)
 import Swihs.Builder
-import Swihs.C hiding (cutQuery, nextSolution, openQuery)
+import Swihs.C hiding (closeQuery, cutQuery, nextSolution, openQuery)
 import qualified Swihs.C as C
 import Swihs.Term
 import Swihs.Types

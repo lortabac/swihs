@@ -1,4 +1,7 @@
-module Swihs.Term where
+module Swihs.Term
+  ( getTerm,
+  )
+where
 
 import Control.Applicative (liftA2)
 import Data.Scientific

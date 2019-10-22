@@ -1,7 +1,10 @@
 {-# LANGUAGE ApplicativeDo #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Swihs.Builder where
+module Swihs.Builder
+  ( buildQueryTerm,
+  )
+where
 
 import Control.Monad (void)
 import Control.Monad.IO.Class
@@ -80,13 +83,6 @@ putCompTerm ref name ts = do
   f <- liftIO $ newFunctor a (length ts)
   args <- termRefs ts
   liftIO $ void (consFunctorV ref f args)
-
-putListTerm :: TermRef -> [Term] -> BuilderT ()
-putListTerm ref [] = void $ liftIO (putNil ref)
-putListTerm ref (x : xs) = do
-  putListTerm ref xs
-  href <- termRef x
-  void $ liftIO $ consList ref href ref
 
 termRef :: Term -> BuilderT TermRef
 termRef t = do
