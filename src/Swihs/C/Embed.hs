@@ -63,11 +63,14 @@ clearException = pl_clear_exception
 
 getArgs :: IO (CInt, Ptr CString)
 getArgs = do
+    let argCount = 3
     p_argc <- malloc :: IO (Ptr CInt)
     p_p_argv <- malloc :: IO (Ptr (Ptr CString))
     getProgArgv p_argc p_p_argv
     p_argv <- peek p_p_argv
-    p_args <- reallocArray p_argv 2
-    cstr <- newCString "--no-signals"
-    pokeElemOff p_args 1 cstr
-    pure (2, p_args)
+    p_args <- reallocArray p_argv argCount
+    quiet  <- newCString "--quiet"
+    noSigs <- newCString "--no-signals"
+    pokeElemOff p_args 1 quiet
+    pokeElemOff p_args 2 noSigs
+    pure (fromIntegral argCount, p_args)
