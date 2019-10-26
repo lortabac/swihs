@@ -56,5 +56,41 @@ builtinTests =
         assertz $ F1 "turkish_food_str" (String "mantı")
         assertz $ F1 "chinese_food_str" (String "春卷")
         sol <- queryOnce $ F1 "turkish_food_str" "X" .& F1 "chinese_food_str" "Y"
-        sol @=? Just [("X", Ground (String "mantı")), ("Y", Ground (String "春卷"))]
+        sol @=? Just [("X", Ground (String "mantı")), ("Y", Ground (String "春卷"))],
+      testCase "Reading back atoms" $ do
+        sol <- queryOnce $ "X" .= "atom"
+        fmap (! "X") sol @=? Just (Ground "atom"),
+      testCase "Reading back strings" $ do
+        sol <- queryOnce $ "X" .= String "string"
+        fmap (! "X") sol @=? Just (Ground (String "string")),
+      testCase "Reading back integers" $ do
+        sol <- queryOnce $ "X" .= 1
+        fmap (! "X") sol @=? Just (Ground (Number 1)),
+      testCase "Reading back compound terms of arity 1" $ do
+        sol <- queryOnce $ "X" .= F1 "compound" "f1"
+        fmap (! "X") sol @=? Just (Ground (F1 "compound" "f1")),
+      testCase "Reading back compound terms of arity 2" $ do
+        sol <- queryOnce $ "X" .= F2 "compound" "f1" "f2"
+        fmap (! "X") sol @=? Just (Ground (F2 "compound" "f1" "f2")),
+      testCase "Reading back compound terms of arity 3" $ do
+        sol <- queryOnce $ "X" .= F3 "compound" "f1" "f2" "f3"
+        fmap (! "X") sol @=? Just (Ground (F3 "compound" "f1" "f2" "f3")),
+      testCase "Reading back compound terms of arity 4" $ do
+        sol <- queryOnce $ "X" .= F4 "compound" "f1" "f2" "f3" "f4"
+        fmap (! "X") sol @=? Just (Ground (F4 "compound" "f1" "f2" "f3" "f4")),
+      testCase "Reading back compound terms of arity 5" $ do
+        sol <- queryOnce $ "X" .= F5 "compound" "f1" "f2" "f3" "f4" "f5"
+        fmap (! "X") sol @=? Just (Ground (F5 "compound" "f1" "f2" "f3" "f4" "f5")),
+      testCase "Reading back compound terms of arity 6" $ do
+        sol <- queryOnce $ "X" .= F6 "compound" "f1" "f2" "f3" "f4" "f5" "f6"
+        fmap (! "X") sol @=? Just (Ground (F6 "compound" "f1" "f2" "f3" "f4" "f5" "f6")),
+      testCase "Reading back compound terms of arity 7" $ do
+        sol <- queryOnce $ "X" .= F7 "compound" "f1" "f2" "f3" "f4" "f5" "f6" "f7"
+        fmap (! "X") sol @=? Just (Ground (F7 "compound" "f1" "f2" "f3" "f4" "f5" "f6" "f7")),
+      testCase "Reading back compound terms of arity 8" $ do
+        sol <- queryOnce $ "X" .= F8 "compound" "f1" "f2" "f3" "f4" "f5" "f6" "f7" "f8"
+        fmap (! "X") sol @=? Just (Ground (F8 "compound" "f1" "f2" "f3" "f4" "f5" "f6" "f7" "f8")),
+      testCase "Reading back compound terms of arity 9" $ do
+        sol <- queryOnce $ "X" .= F9 "compound" "f1" "f2" "f3" "f4" "f5" "f6" "f7" "f8" "f9"
+        fmap (! "X") sol @=? Just (Ground (F9 "compound" "f1" "f2" "f3" "f4" "f5" "f6" "f7" "f8" "f9"))
     ]

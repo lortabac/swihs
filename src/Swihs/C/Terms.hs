@@ -123,6 +123,17 @@ getStringChars t =
       cstr <- peek p_str
       packCStringAsText cstr
 
+foreign import ccall "PL_get_compound_name_arity" pl_get_compound_name_arity :: TermRef -> Ptr Atom_ -> Ptr CInt -> IO CInt
+
+getCompoundNameArity :: TermRef -> IO (Atom_, Int)
+getCompoundNameArity t =
+  alloca $ \p_name ->
+  alloca $ \p_arity -> do
+    _ <- pl_get_compound_name_arity t p_name p_arity
+    name <- peek p_name
+    arity <- peek p_arity
+    pure (name, fromIntegral arity)
+
 foreign import ccall "PL_get_functor" pl_get_functor :: TermRef -> Ptr Functor_ -> IO CInt
 
 getFunctor :: TermRef -> IO Functor_
