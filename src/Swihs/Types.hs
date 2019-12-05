@@ -1,6 +1,3 @@
-{-# LANGUAGE DeriveFoldable #-}
-{-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -Wno-missing-methods #-}
@@ -99,22 +96,6 @@ partial p = case p WildCard of
 data Query = Query Query_ (Map String TermRef)
 
 data QueryTerm = QueryTerm Predicate TermRef (Map String TermRef)
-
-data Ground a
-  = Ground a
-  | FreeVar
-  deriving (Eq, Ord, Show, Functor, Foldable, Traversable)
-
-instance Applicative Ground where
-
-  pure = Ground
-
-  Ground f <*> x = fmap f x
-  FreeVar <*> _ = FreeVar
-
-instance Monad Ground where
-  (Ground x) >>= k = k x
-  FreeVar >>= _ = FreeVar
 
 type Functor1 = Term -> Term
 

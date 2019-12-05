@@ -27,7 +27,7 @@ queryBool b = do
   closeForeignFrame fid
   pure r
 
-queryOnce :: Term -> IO (Maybe (Map String (Ground Term)))
+queryOnce :: Term -> IO (Maybe (Map String Term))
 queryOnce b = do
   fid <- openForeignFrame
   q <- openQuery b
@@ -36,7 +36,7 @@ queryOnce b = do
   closeForeignFrame fid
   pure t
 
-queryList :: Term -> IO [(Map String (Ground Term))]
+queryList :: Term -> IO [Map String Term]
 queryList b = do
   fid <- openForeignFrame
   q <- openQuery b
@@ -57,14 +57,14 @@ cutQuery (Query q _) = void $ C.cutQuery q
 closeQuery :: Query -> IO ()
 closeQuery (Query q _) = void $ C.closeQuery q
 
-nextSolution :: Query -> IO (Maybe (Map String (Ground Term)))
+nextSolution :: Query -> IO (Maybe (Map String Term))
 nextSolution (Query q varMap) = do
   sol <- C.nextSolution q
   if sol
     then Just <$> traverse getTerm varMap
     else pure Nothing
 
-solutionList :: Query -> IO [(Map String (Ground Term))]
+solutionList :: Query -> IO [Map String Term]
 solutionList = unfoldM . nextSolution
 
 unfoldM :: Monad m => m (Maybe a) -> m [a]
