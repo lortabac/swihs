@@ -13,12 +13,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ghc: ['9.6.6', '9.8.2', '9.10.1']
 
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-haskell@v1
+    - uses: haskell-actions/setup@v2
       with:
-        ghc-version: '9.8.2'
+        ghc-version: ${{ matrix.ghc }}
         cabal-version: '3.12.1.0'
 
     - name: Cache
@@ -36,8 +39,8 @@ jobs:
     - name: Install dependencies
       run: |
         cabal update
-        cabal build --only-dependencies --enable-tests --enable-benchmarks
+        cabal build --only-dependencies --enable-tests
     - name: Build
-      run: cabal build --enable-tests --enable-benchmarks all
+      run: cabal build --enable-tests all
     - name: Run tests
       run: cabal test all
