@@ -11,7 +11,6 @@ import Control.Monad.IO.Class
 import Control.Monad.Trans.State.Strict
 import Data.Map (Map)
 import qualified Data.Map as Map
-import Data.Scientific
 import Data.Text (Text)
 import Swihs.C
 import Swihs.Types
@@ -52,9 +51,8 @@ buildCompQueryTerm name ts = do
 putTerm :: TermRef -> Term -> BuilderT ()
 putTerm ref t = case t of
   Atom name -> liftIO (newAtom name >>= putAtom ref)
-  Number n -> liftIO $ case floatingOrInteger n of
-    Left r -> void $ putFloat ref r
-    Right i -> void $ putInt64 ref i
+  Double r -> void $ liftIO (putFloat ref r)
+  Int i -> void $ liftIO (putInt64 ref i)
   String str -> liftIO $ void $ putStringChars ref str
   Var name -> do
     varMap <- get

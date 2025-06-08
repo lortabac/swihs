@@ -5,8 +5,8 @@
 module Swihs.Types where
 
 import Data.Char
+import Data.Int (Int64)
 import Data.Map (Map)
-import Data.Scientific
 import Data.String (IsString (..))
 import Data.Text (Text)
 import qualified Data.Text as Text
@@ -16,7 +16,8 @@ import Swihs.C
 -- | Haskell representation of a Prolog term
 data Term
   = Atom Text
-  | Number Scientific
+  | Int Int64
+  | Double Double
   | String Text
   | Var String
   | WildCard
@@ -52,13 +53,13 @@ instance Num Term where
 
   (*) = F2 "*"
 
-  fromInteger = Number . fromInteger
+  fromInteger = Int . fromInteger
 
 instance Fractional Term where
 
   (/) = F2 "/"
 
-  fromRational = Number . fromRational
+  fromRational = Double . fromRational
 
 instance IsList Term where
 
@@ -76,7 +77,8 @@ instance IsList Term where
 partial :: (Term -> Term) -> Term
 partial p = case p WildCard of
   Atom _ -> error "Cannot partially apply an atom"
-  Number _ -> error "Cannot partially apply a number"
+  Int _ -> error "Cannot partially apply an integer"
+  Double _ -> error "Cannot partially apply a double"
   String _ -> error "Cannot partially apply a string"
   Var _ -> error "Cannot partially apply a variable"
   WildCard -> error "Cannot partially apply a wild card"

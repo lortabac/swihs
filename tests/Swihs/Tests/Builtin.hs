@@ -65,7 +65,10 @@ builtinTests =
         fmap (! "X") sol @?= Just (String "string"),
       testCase "Reading back integers" $ do
         sol <- queryOnce $ "X" .= 1
-        fmap (! "X") sol @?= Just (Number 1),
+        fmap (! "X") sol @?= Just (Int 1),
+      testCase "Reading back doubles" $ do
+        sol <- queryOnce $ "X" .= 1.3
+        fmap (! "X") sol @?= Just (Double 1.3),
       testCase "Reading back compound terms of arity 1" $ do
         sol <- queryOnce $ "X" .= F1 "compound" "f1"
         fmap (! "X") sol @?= Just (F1 "compound" "f1"),

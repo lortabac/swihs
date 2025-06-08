@@ -3,7 +3,6 @@ module Swihs.Term
   )
 where
 
-import Data.Scientific
 import Swihs.C
 import Swihs.Types
 
@@ -18,10 +17,10 @@ getTerm ref = do
     TVariable -> Var <$> getVarName ref
     TInteger -> do
       i <- getInt64 ref
-      pure $ Number (fromIntegral i)
+      pure $ Int i
     TFloat -> do
       r <- getFloat ref
-      pure $ Number (fromFloatDigits r)
+      pure $ Double r
     TString -> do
       s <- getStringChars ref
       pure $ String s
