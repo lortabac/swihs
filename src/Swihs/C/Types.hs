@@ -42,20 +42,20 @@ instance Enum TermType where
   toEnum 1 = TVariable
   toEnum 2 = TAtom
   toEnum 3 = TInteger
-  toEnum 4 = TFloat
-  toEnum 5 = TString
-  toEnum 6 = TTerm
-  toEnum 7 = TNil
-  toEnum 9 = TListPair
+  toEnum 5 = TFloat
+  toEnum 6 = TString
+  toEnum 7 = TTerm
+  toEnum 8 = TNil
+  toEnum 10 = TListPair
   toEnum _ = error "Unknown TermType"
 
   fromEnum TVariable = 1
   fromEnum TAtom = 2
   fromEnum TInteger = 3
-  fromEnum TFloat = 4
-  fromEnum TString = 5
-  fromEnum TTerm = 6
-  fromEnum TNil = 7
-  fromEnum TListPair = 9
+  fromEnum TFloat = 5
+  fromEnum TString = 6
+  fromEnum TTerm = 7
+  fromEnum TNil = 8
+  fromEnum TListPair = 10
 
 newtype CInt64 = CInt64 Int64 deriving (Eq, Num, Ord, Show, Storable)

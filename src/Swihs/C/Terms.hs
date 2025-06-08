@@ -132,7 +132,7 @@ getVarName t =
     cstr <- peek p_str
     peekCString cstr
 
-foreign import ccall "PL_get_compound_name_arity" pl_get_compound_name_arity :: TermRef -> Ptr Atom_ -> Ptr CInt -> IO CInt
+foreign import ccall "PL_get_compound_name_arity" pl_get_compound_name_arity :: TermRef -> Ptr Atom_ -> Ptr CSize -> IO CInt
 
 getCompoundNameArity :: TermRef -> IO (Atom_, Int)
 getCompoundNameArity t =
